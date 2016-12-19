@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Пример извлечения XML с помощью AJAX</title>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <h1>Загрузка XML-содержимого в DIV-контейнер</h1>
+        <div id="info">Это предложение будет заменено</div>
+        
+        <script>
+            nocache = "&nocache=" + Math.random() * 1000000
+            url     = "rss.news.yahoo.com/rss/topstories"
+            out     = "";
+            
+            request = new ajaxRequest();
+            request.open("GET", "xmlget.php?url=" + url + nocache, true)
+            
+            request.onreadystatechange = function(){
+                if(this.readyState == 4){
+                    if(this.status == 200){
+                        if(this.responseText != null){
+                            titles = this.responseXML.getElementsByTagName('title')
+                            
+                            for(j = 0 ; j < titles.length ; ++j){
+                                out += titles[j].childNodes[0].nodeValue + '<br>'
+                            }
+                            document.getElementById('info').innerHTML = out
+                        }
+                        else alert("Ошибка AJAX: Данные не получены")
+                    }
+                    else alert("Ошибка AJAX: " + this.statusText)
+                }
+            }
+            
+            request.send(null)
+            
+            function ajaxRequest()
+            {
+                try
+                {
+                    var request = new XMLHttpRequest()
+                }
+                catch(e1)
+                {
+                    try
+                    {
+                        request = new ActiveXObject("Msxml2.XMLHTTP")
+                    }
+                    catch(e2)
+                    {
+                        try
+                        {
+                            request = new ActiveXObject("Microsoft.XMLHTTP")
+                        }
+                        catch(e3)
+                        {
+                            request = false
+                        }
+                    }
+                }
+                return request
+            }
+        </script>
+    </body>
+</html>
