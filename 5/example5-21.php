@@ -7,11 +7,11 @@
     const SPANISH = 1;
     const FRENCH  = 2;
     const GERMAN  = 3;
-    // …
+    // â€¦
 
     static function lookup()
     {
-      echo self::ENGLISH;
+      echo self::GERMAN;
     }
   }
 ?>
