@@ -58,4 +58,17 @@
 		echo '<pre>';
 		return $var;
 	}
+
+	function sanitizeString($var){
+		global $con;
+		$var = strip_tags($var);
+		$var = htmlentities($var);
+		$var = stripslashes($var);
+		return $con->real_escape_string($var);
+	}
+	
+	function get_pass($pass){
+		$pass = get_data("SELECT sha_pass_hash FROM `".$GLOBALS['db_auth']."`.`account` WHERE `username`='".$GLOBALS['username']."'");
+		return $pass;
+	}
 ?>
